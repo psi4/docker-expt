@@ -36,7 +36,7 @@ jobs:
           context: .
           file: ./Dockerfile-BPP
           build-args: |
-            CondaFile="./environment.yaml"
+            CondaFile=environment.yaml
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
 
