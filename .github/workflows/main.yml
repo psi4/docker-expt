@@ -21,11 +21,49 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      #-
+      #  name: Build and push
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: .
+      #    file: ./Dockerfile
+      #    push: true
+      #    tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest   
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile
+          file: ./Dockerfile-BPP
+          build-args: |
+            CondaFile="./environment.yaml"
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+
+# #!/bin/bash
+
+# set -eu
+
+# CONDA_FILE="${1}"
+# FILE_BASE="${1//.yaml/}"
+# PROGRAM="${FILE_BASE//_*/}"
+# VERSION="${FILE_BASE//*_/}"
+# MANIFEST="${FILE_BASE}.manifest"
+
+# DOCKER_TAG="${PROGRAM}:${VERSION}"
+
+# if [[ ! -f "${CONDA_FILE}" ]]
+# then
+#   echo "File ${CONDA_FILE} does not exist or is not a file"
+#   exit 1
+# fi
+
+# echo "--------------------------------------------------------"
+# echo "Conda file: ${CONDA_FILE}"
+# echo "Program:    ${PROGRAM}"
+# echo "Version:    ${VERSION}"
+# echo "--------------------------------------------------------"
+
+# docker build . --build-arg CondaFile="${CONDA_FILE}" -t "${DOCKER_TAG}"
+# docker run ${DOCKER_TAG} micromamba list --json > "${MANIFEST}"
+# apptainer build ${FILE_BASE}.sif docker-daemon:${DOCKER_TAG}

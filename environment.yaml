@@ -1,0 +1,15 @@
+name: qcaworker_psi4_dev
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.9
+  - conda-forge/label/psi4_dev::psi4
+  - conda-forge/label/libint_dev::libint
+  
+  - pytest-xdist
+  - dftd3-python
+  - dftd4-python
+  - toml
+  - gcp-correction
