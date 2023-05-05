@@ -47,7 +47,7 @@ jobs:
         name: Test
         run: |
           docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest psi4 --version
-          #--rm ${{ env.TEST_TAG }}
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest pytest -v --pyargs psi4 -m smoke  
 
 # #!/bin/bash
 
