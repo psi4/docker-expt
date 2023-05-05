@@ -39,15 +39,15 @@ jobs:
             CondaFile=environment.yaml
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
-      -
-        name: List
-        run: |
-          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest micromamba list --json
+      #-
+      #  name: List
+      #  run: |
+      #    docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest micromamba list --json
       -
         name: Test
         run: |
           docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest psi4 --version
-          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest pytest -v --pyargs psi4 -m smoke  
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest pytest -v /opt/conda/lib/python3.9/site-packages/psi4/tests/ -m smoke  
 
 # #!/bin/bash
 
