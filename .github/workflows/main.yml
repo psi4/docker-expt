@@ -39,6 +39,15 @@ jobs:
             CondaFile=environment.yaml
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+      -
+        name: List
+        run: |
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest micromamba list --json
+      -
+        name: Test
+        run: |
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest psi4 --version
+          #--rm ${{ env.TEST_TAG }}
 
 # #!/bin/bash
 
