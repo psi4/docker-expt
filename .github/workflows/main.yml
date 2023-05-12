@@ -38,7 +38,8 @@ jobs:
           build-args: |
             CondaFile=environment.yaml
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+          tags: psi4/psi4:latest,psi4/psi4:1.8.0,psi4/psi4:1.8
+          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest
       #-
       #  name: List
       #  run: |
@@ -46,8 +47,8 @@ jobs:
       -
         name: Test
         run: |
-          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest psi4 --version
-          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest pytest -v /opt/conda/lib/python3.9/site-packages/psi4/tests/ --color yes -n auto -m smoke
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest psi4 --version
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest pytest -v /opt/conda/lib/python3.10/site-packages/psi4/tests/ --color yes -n auto -m smoke
       - 
         name: Set up Apptainer
         uses: eWaterCycle/setup-apptainer@v2
@@ -56,7 +57,7 @@ jobs:
       - 
         name: Run an apptainer container
         #run: apptainer run docker://alpine cat /etc/os-release
-        run: apptainer build asdf.sif docker-daemon:${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+        run: apptainer build psi4-1.8.sif docker-daemon:${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest
   
 # #!/bin/bash
 
