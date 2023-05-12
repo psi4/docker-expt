@@ -58,7 +58,12 @@ jobs:
         name: Run an apptainer container
         #run: apptainer run docker://alpine cat /etc/os-release
         run: apptainer build psi4-1.8.sif docker-daemon:${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest
-  
+      #-
+      #  name: Push to Sylabs
+      #  run: apptainer push psi4-1.8.sif 
+  #singularity push my-container.sif library://your-name/project-dir/my-container:latest
+  #singularity push -U image.sif library://your-username/project-dir/my-container:tags
+  #apptainer push /home/user/my.sif library://user/collection/my.sif:latest
 # #!/bin/bash
 
 # set -eu
