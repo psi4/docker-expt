@@ -53,7 +53,13 @@ jobs:
         #run: apptainer run docker://alpine cat /etc/os-release
         run: apptainer build psi4-1.8.sif docker-daemon:${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest
       -
+        name: Test Apptainer
+        run: |
+          apptainer run psi4-1.8.sif psi4 --version
+          apptainer run psi4-1.8.sif pytest -v /opt/conda/lib/python3.10/site-packages/psi4/tests/ --color yes -n auto -m smoke
+      -
         name: Push to Sylabs
+        if: false
         run: apptainer push psi4-1.8.sif library://psi4/psi4/psi4-1.8:latest
       
       #$ singularity push my-container.sif library://your-name/project-dir/my-container:latest
