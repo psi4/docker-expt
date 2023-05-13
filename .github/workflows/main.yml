@@ -21,14 +21,6 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      #-
-      #  name: Build and push
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: .
-      #    file: ./Dockerfile
-      #    push: true
-      #    tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest   
       -
         name: Build and push
         uses: docker/build-push-action@v4
@@ -37,13 +29,15 @@ jobs:
           file: ./Dockerfile-BPP
           build-args: |
             CondaFile=environment.yaml
-          push: true
+          #push: true
+          push: false
           tags: psi4/psi4:latest,psi4/psi4:1.8.0,psi4/psi4:1.8
           #tags: ${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest
-      #-
-      #  name: List
-      #  run: |
-      #    docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest micromamba list --json
+      -
+        name: List
+        if: false
+        run: |
+          docker run ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest micromamba list --json
       -
         name: Test
         run: |
@@ -58,9 +52,11 @@ jobs:
         name: Run an apptainer container
         #run: apptainer run docker://alpine cat /etc/os-release
         run: apptainer build psi4-1.8.sif docker-daemon:${{ secrets.DOCKERHUB_USERNAME }}/psi4:latest
-      #-
-      #  name: Push to Sylabs
-      #  run: apptainer push psi4-1.8.sif 
+      -
+        name: Push to Sylabs
+        run: apptainer push psi4-1.8.sif library://psi4/psi4/psi4-1.8:latest
+      
+      #$ singularity push my-container.sif library://your-name/project-dir/my-container:latest
   #singularity push my-container.sif library://your-name/project-dir/my-container:latest
   #singularity push -U image.sif library://your-username/project-dir/my-container:tags
   #apptainer push /home/user/my.sif library://user/collection/my.sif:latest
